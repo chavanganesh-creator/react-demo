@@ -1,18 +1,19 @@
+import './App.css'
 import FirstComponent from './component/FirstComponent.jsx'
 import SecondComponent from './component/SecondComponent.jsx'
-import './App.css'
 import ThirdComponent from './component/ThirdComponent.jsx'
 import Navbar from './component/Navbar.jsx'
-import React,{ useState } from 'react'
+import { useState } from 'react'
 import Alert from './component/Alert.jsx'
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 function App() {
 
-  const [colorMode, setColorMode] = React.useState('dark');
+  const [colorMode, setColorMode] = useState('dark');
   const [alert, setAlert] = useState(null);
 
   const toggleColorMode = () => {
-    if(colorMode === 'dark') {
+    if (colorMode === 'dark') {
       setColorMode('light');
     } else {
       setColorMode('dark');
@@ -27,18 +28,21 @@ function App() {
     setTimeout(() => {
       setAlert(null);
     }, 1500);
-  } 
+  }
 
   return (
     <>
-      <Navbar colorMode={colorMode} setColorMode={setColorMode} toggleColorMode={toggleColorMode} />
-      <div style={{backgroundColor: colorMode === 'dark' ? '#212529' : 'white', color: colorMode === 'dark' ? 'white' : 'black'}}>
-        <Alert alert={alert}  />
-        <FirstComponent name="John Doe" />
-        <SecondComponent showAlert={showAlert} />
-        <hr /> <br />
-        <ThirdComponent />
-      </div>
+      <HashRouter>
+        <Navbar colorMode={colorMode} toggleColorMode={toggleColorMode} />
+        <Alert alert={alert} />
+        <Routes>
+          <Route path="/" element={<FirstComponent name="John Doe" />} />
+          <Route path="/about" element={<ThirdComponent />} />
+          <Route path="/email" element={<SecondComponent showAlert={showAlert} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </HashRouter>
+
     </>
   )
 }
