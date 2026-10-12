@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ThirdComponent() {
+export default function ThirdComponent( { colorMode }) {
 
   const [text, setText] = React.useState('text');
   
@@ -9,6 +9,8 @@ export default function ThirdComponent() {
   }
   return (
     <div className="container">
+        <h1 className={`my-2 text-decoration-underline text-${colorMode === 'dark' ? 'light' : 'dark'}`}>Text Editor</h1>
+
         <div className="card">
             <div className="card-body">
                <textarea className="form-control" value={text} onChange={(e) => setText(e.target.value)} id="exampleFormControlTextarea1" rows="3">
